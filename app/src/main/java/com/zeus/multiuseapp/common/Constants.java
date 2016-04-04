@@ -10,4 +10,7 @@ public class Constants {
     public static final int REMINDER = 4;
     public static final int MOVIE = 5;
     public static final int SETTINGS = 6;
+
+    public static final String PREFERENCE_NAME = "app_preference";
+    public static final String DEFAULT_APP = "default_app";
 }

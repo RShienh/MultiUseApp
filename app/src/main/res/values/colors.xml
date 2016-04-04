@@ -9,4 +9,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="navigationBarColor">@color/colorPrimaryDark</color>
+    <color name="teal_dark">#009688</color>
+    <color name="teal_light">#64ffda</color>
 </resources>
