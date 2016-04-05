@@ -15,4 +15,6 @@
     <string name="movie_list">Movie List</string>
     <string name="choose_one_option">Choose One Option</string>
     <string name="choose_default_app">Choose Default App</string>
+    <string name="restart">Please restart the App</string>
+    <string name="exit">Exit</string>
 </resources>

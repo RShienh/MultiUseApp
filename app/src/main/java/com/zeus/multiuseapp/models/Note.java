@@ -14,6 +14,7 @@ public class Note extends SugarRecord {
     private long dateModified;
 
     public Note() {
+
     }
 
     public String getTitle() {

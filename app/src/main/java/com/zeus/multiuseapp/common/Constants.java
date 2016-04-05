@@ -13,4 +13,15 @@ public class Constants {
 
     public static final String PREFERENCE_NAME = "app_preference";
     public static final String DEFAULT_APP = "default_app";
+
+    public static final String NOTE_TABLE = "notes";
+
+    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_CONTENT = "content";
+    public static final String COLUMN_MODIFIED_TIME = "modified_time";
+    public static final String COLUMN_COLOR = "color";
+    public static final String COLUMN_CREATED_TIME = "created_time";
 }

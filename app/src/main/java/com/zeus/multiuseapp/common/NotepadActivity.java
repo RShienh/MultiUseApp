@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.common.demo.SQLiteDemo;
 import com.zeus.multiuseapp.drawing.DrawingActivity;
 import com.zeus.multiuseapp.movie.MovieActivity;
 import com.zeus.multiuseapp.reminder.ReminderActivity;
@@ -42,6 +44,11 @@ public class NotepadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notepad);
         mActivity = this;
 
+        SQLiteDemo database = new SQLiteDemo(this);
+        database.getWritableDatabase();
+
+        //  testDatabase();
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -50,13 +57,25 @@ public class NotepadActivity extends AppCompatActivity {
         DEFAULT_APP = mSharedPreferences.getInt(Constants.DEFAULT_APP, 0);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if (fab != null) {
+            fab.setBackgroundResource(R.drawable.exit);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, R.string.restart, Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.exit, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                        finishAffinity();
+                                    } else {
+                                        finish();
+                                    }
+                                }
+                            }).show();
+                }
+            });
+        }
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -160,4 +179,18 @@ public class NotepadActivity extends AppCompatActivity {
                 .commit();
         getSupportActionBar().setTitle(screenTitle);
     }
+
+  /*  private void testDatabase() {
+        Note note1 = new Note();
+        note1.setTitle("This is the test for database");
+        note1.setContent("Hello !!");
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        note1.setDateCreated(calendar.getTimeInMillis());
+        note1.setDateModified(calendar.getTimeInMillis());
+        note1.save();
+
+        long id = note1.getId();
+    }*/
+
 }
