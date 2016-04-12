@@ -1,12 +1,10 @@
-package com.zeus.multiuseapp.common;
+package com.zeus.multiuseapp.notepad;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +20,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.common.Constants;
+import com.zeus.multiuseapp.common.SettingsFragment;
 import com.zeus.multiuseapp.drawing.DrawingActivity;
 import com.zeus.multiuseapp.movie.MovieActivity;
 import com.zeus.multiuseapp.reminder.ReminderActivity;
@@ -42,6 +42,11 @@ public class NotepadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notepad);
         mActivity = this;
 
+      /*  SQLiteDemo database = new SQLiteDemo(this);
+        database.getWritableDatabase();*/
+
+        // testDatabase();
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -49,14 +54,6 @@ public class NotepadActivity extends AppCompatActivity {
         mEditor = mSharedPreferences.edit();
         DEFAULT_APP = mSharedPreferences.getInt(Constants.DEFAULT_APP, 0);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         AccountHeader accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -132,6 +129,7 @@ public class NotepadActivity extends AppCompatActivity {
     private void onTouchDrawer(int position) {
         switch (position) {
             case Constants.NOTEPAD:
+                openFragment(new LinedNoteEditor(), "Note Editor");
                 break;
             case Constants.DRAWING:
                 startActivity(new Intent(this, DrawingActivity.class));
@@ -160,4 +158,18 @@ public class NotepadActivity extends AppCompatActivity {
                 .commit();
         getSupportActionBar().setTitle(screenTitle);
     }
+
+   /* private void testDatabase() {
+        Note note1 = new Note();
+        note1.setTitle("This is the test for database");
+        note1.setContent("Hello !!");
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        note1.setDateCreated(calendar.getTimeInMillis());
+        note1.setDateModified(calendar.getTimeInMillis());
+        note1.save();
+
+        long id = note1.getId();
+    }*/
+
 }

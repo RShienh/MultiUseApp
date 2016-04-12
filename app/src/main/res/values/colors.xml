@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#673AB7</color>
-    <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorPrimaryLight">#D1C4E9</color>
-    <color name="colorAccent">#FFC107</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorPrimaryLight">#B2DFDB</color>
+    <color name="colorAccent">#FF5252</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
     <color name="icons">#FFFFFF</color>
@@ -11,4 +11,27 @@
     <color name="navigationBarColor">@color/colorPrimaryDark</color>
     <color name="teal_dark">#009688</color>
     <color name="teal_light">#64ffda</color>
+    <color name="note_back">#fff4c0</color>
+
+    <color name="colorPrimary1">#FFEB3B</color>
+    <color name="colorPrimaryDark1">#FBC02D</color>
+    <color name="colorPrimaryLight1">#FFF9C4</color>
+    <color name="colorAccent1">#FF5722</color>
+
+    <color name="colorPrimary2">#3F51B5</color>
+    <color name="colorPrimaryDark2">#303F9F</color>
+    <color name="colorPrimaryLight2">#C5CAE9</color>
+    <color name="colorAccent2">#FFC107</color>
+
+    <color name="colorPrimary3">#FF5722</color>
+    <color name="colorPrimaryDark3">#E64A19</color>
+    <color name="colorPrimaryLight3">#FFCCBC</color>
+    <color name="colorAccent3">#03A9F4</color>
+
+    <color name="colorPrimary4">#9C27B0</color>
+    <color name="colorPrimaryDark4">#7B1FA2</color>
+    <color name="colorPrimaryLight4">#E1BEE7</color>
+    <color name="colorAccent4">#8BC34A</color>
+
+
 </resources>
