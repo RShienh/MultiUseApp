@@ -11,12 +11,12 @@
     <color name="navigationBarColor">@color/colorPrimaryDark</color>
     <color name="teal_dark">#009688</color>
     <color name="teal_light">#64ffda</color>
-    <color name="note_back">#fff4c0</color>
+    <color name="note_back">#ffecb3</color>
 
-    <color name="colorPrimary1">#FFEB3B</color>
-    <color name="colorPrimaryDark1">#FBC02D</color>
-    <color name="colorPrimaryLight1">#FFF9C4</color>
-    <color name="colorAccent1">#FF5722</color>
+    <color name="colorPrimary1">#795548</color>
+    <color name="colorPrimaryDark1">#5D4037</color>
+    <color name="colorPrimaryLight1">#D7CCC8</color>
+    <color name="colorAccent1">#607D8B</color>
 
     <color name="colorPrimary2">#3F51B5</color>
     <color name="colorPrimaryDark2">#303F9F</color>

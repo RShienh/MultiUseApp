@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.common.SampleData;
+import com.zeus.multiuseapp.models.Note;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +24,9 @@ public class NoteListFragment extends Fragment {
     private View mRootView;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mlayoutManager;
+
+    private NoteListAdapter mNoteListAdapter;
+    private List<Note> mNotes;
 
     public NoteListFragment() {
         // Required empty public constructor
@@ -43,6 +50,10 @@ public class NoteListFragment extends Fragment {
         mlayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mlayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
+        mNotes = SampleData.getSmapleNote();
+        mNoteListAdapter = new NoteListAdapter(getActivity(), mNotes);
+        mRecyclerView.setAdapter(mNoteListAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) mRootView.findViewById(R.id.fab);
         if (fab != null) {
