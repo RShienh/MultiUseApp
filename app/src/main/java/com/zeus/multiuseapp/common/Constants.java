@@ -24,4 +24,6 @@ public class Constants {
     public static final String COLUMN_MODIFIED_TIME = "modified_time";
     public static final String COLUMN_COLOR = "color";
     public static final String COLUMN_CREATED_TIME = "created_time";
+
+    public static final String LIST_OF_NOTE_ID = "list_of_notes_id";
 }

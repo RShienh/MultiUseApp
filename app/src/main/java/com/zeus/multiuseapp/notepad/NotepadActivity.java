@@ -129,7 +129,7 @@ public class NotepadActivity extends AppCompatActivity {
     private void onTouchDrawer(int position) {
         switch (position) {
             case Constants.NOTEPAD:
-                openFragment(new NoteListFragment(), "Note List");
+                openFragment(new NoteListFragment(), "Notes List");
                 break;
             case Constants.DRAWING:
                 startActivity(new Intent(this, DrawingActivity.class));
@@ -160,7 +160,7 @@ public class NotepadActivity extends AppCompatActivity {
     }
 
    /* private void testDatabase() {
-        Note note1 = new Note();
+        Notes note1 = new Notes();
         note1.setTitle("This is the test for database");
         note1.setContent("Hello !!");
 

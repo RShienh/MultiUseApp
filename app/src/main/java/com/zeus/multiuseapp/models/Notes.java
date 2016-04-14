@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Zeus on 3/21/2016.
  */
-public class Note extends SugarRecord {
+public class Notes extends SugarRecord {
 
     private String title;
     private String content;
@@ -18,7 +18,7 @@ public class Note extends SugarRecord {
     private long dateCreated;
     private long dateModified;
 
-    public Note() {
+    public Notes() {
 
     }
 
