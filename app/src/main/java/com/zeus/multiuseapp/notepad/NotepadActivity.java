@@ -67,22 +67,22 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
                 .withToolbar(mToolbar)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Note List")
+                        new PrimaryDrawerItem().withName(R.string.note_list)
                                 .withIcon(FontAwesome.Icon.faw_file_text)
                                 .withIdentifier(1),
-                        new PrimaryDrawerItem().withName("Todo List")
+                        new PrimaryDrawerItem().withName(R.string.todo_list)
                                 .withIcon(FontAwesome.Icon.faw_list)
                                 .withIdentifier(2),
-                        new PrimaryDrawerItem().withName("Drawing")
+                        new PrimaryDrawerItem().withName(R.string.drawing)
                                 .withIcon(FontAwesome.Icon.faw_paint_brush)
                                 .withIdentifier(3),
-                        new PrimaryDrawerItem().withName("Reminder")
+                        new PrimaryDrawerItem().withName(R.string.reminder)
                                 .withIcon(FontAwesome.Icon.faw_clock_o)
                                 .withIdentifier(4),
-                        new PrimaryDrawerItem().withName("Movie")
+                        new PrimaryDrawerItem().withName(R.string.movie_list)
                                 .withIcon(FontAwesome.Icon.faw_video_camera)
                                 .withIdentifier(5),
-                        new PrimaryDrawerItem().withName("Settings")
+                        new PrimaryDrawerItem().withName(R.string.settings)
                                 .withIcon(FontAwesome.Icon.faw_cog)
                                 .withIdentifier(6)
                 )
@@ -130,7 +130,7 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
     private void onTouchDrawer(int position) {
         switch (position) {
             case Constants.NOTEPAD:
-                openFragment(new NoteListFragment(), "Notes List");
+                openFragment(new NoteListFragment(), getString(R.string.note_list));
                 break;
             case Constants.DRAWING:
                 startActivity(new Intent(this, DrawingActivity.class));
@@ -145,7 +145,7 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
                 startActivity(new Intent(this, ReminderActivity.class));
                 break;
             case Constants.SETTINGS:
-                openFragment(new SettingsFragment(), "Settings");
+                openFragment(new SettingsFragment(), getString(R.string.settings));
                 break;
         }
     }

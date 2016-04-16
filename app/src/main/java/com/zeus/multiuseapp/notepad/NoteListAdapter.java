@@ -38,6 +38,11 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         mDragListener = dragListener;
     }
 
+    @Override
+    public int getItemCount() {
+        return mNotes.size();
+    }
+
     public void setNoteListListener(OnNoteListChangedListener listener) {
         mListListener = listener;
     }
@@ -66,10 +71,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return mNotes.size();
-    }
 
     @Override
     public void OnItemMove(int fromPosition, int toPosition) {

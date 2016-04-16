@@ -26,4 +26,5 @@ public class Constants {
     public static final String COLUMN_CREATED_TIME = "created_time";
 
     public static final String LIST_OF_NOTE_ID = "list_of_notes_id";
+    public static final String SERIALIZED_NOTES = "serialized_note";
 }

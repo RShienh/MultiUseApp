@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -65,9 +67,9 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
 
     private void intView() {
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.xRecyclerView);
+        mRecyclerView.setHasFixedSize(true);
         mlayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mlayoutManager);
-        mRecyclerView.setHasFixedSize(true);
 
         mPreferences = getActivity()
                 .getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -79,6 +81,43 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mNoteListAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        final GestureDetector mGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+        });
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
+                if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
+                    int position = recyclerView.getChildLayoutPosition(child);
+                    Notes noteSelected = mNotes.get(position);
+
+                    Gson gson = new Gson();
+                    String serializedNote = gson.toJson(noteSelected);
+
+                    LinedNoteEditor fragment = LinedNoteEditor.newInstance(serializedNote);
+                    mCallback.onStartNewFragment(fragment, getString(R.string.note_editor));
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration
                 .Builder(getActivity())
@@ -107,7 +146,7 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mCallback.onStartNewFragment(new LinedNoteEditor(), "Note Editor");
+                    mCallback.onStartNewFragment(new LinedNoteEditor(), getString(R.string.note_editor));
                 }
             });
         }
@@ -127,7 +166,7 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         try {
             mCallback = (OnStartNewFragmentListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnStartNewFragmentListener");
+            throw new ClassCastException(context.toString() + getString(R.string.must_implement));
         }
     }
 
@@ -137,7 +176,8 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         @Override
         protected List<Notes> doInBackground(Void... params) {
             //first get list from database
-            notesList = SampleData.getSmapleNote();
+            //notesList = SampleData.getSmapleNote();
+            notesList = Notes.listAll(Notes.class);
 
             //create an array list of sorted notes
             List<Notes> sortedNotes = new ArrayList<Notes>();

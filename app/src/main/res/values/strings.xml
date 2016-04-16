@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">MultiTool</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_drawing">DrawingActivity</string>
-    <string name="title_activity_movie">MovieActivity</string>
-    <string name="title_activity_notepad">NotepadActivity</string>
-    <string name="title_activity_reminder">ReminderActivity</string>
-    <string name="title_activity_to_do">ToDoActivity</string>
+    <string name="title_activity_drawing">Drawing Activity</string>
+    <string name="title_activity_movie">Movie Activity</string>
+    <string name="title_activity_notepad">Notepad Activity</string>
+    <string name="title_activity_reminder">Reminder Activity</string>
+    <string name="title_activity_to_do">ToDo Activity</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="notepad">Notepad</string>
@@ -29,4 +29,12 @@
     <string name="title_is_required">Title is required</string>
     <string name="content_is_required">Content is required</string>
     <string name="save">Save</string>
+    <string name="note_list">Note List</string>
+    <string name="note_not_saved">Note not saved</string>
+    <string name="note_updated">Note Updated</string>
+    <string name="must_implement">" must implement OnStartNewFragmentListener"</string>
+    <string name="settings">Settings</string>
+    <string name="note_editor">Note Editor</string>
+    <string name="table_with_id">"Table saved with id: "</string>
+    <string name="delete">Delete</string>
 </resources>
