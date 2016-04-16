@@ -45,7 +45,7 @@
                 android:layout_marginRight="5dp">
 
                 <com.zeus.multiuseapp.notepad.LinedEditText
-                    android:id="@+id/xEBody"
+                    android:id="@+id/xEContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fadingEdge="vertical"

@@ -1,10 +1,11 @@
 package com.zeus.multiuseapp.notepad;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.common.SimpleItemTouchHelperCallback;
 import com.zeus.multiuseapp.common.demo.SampleData;
 import com.zeus.multiuseapp.listener.OnNoteListChangedListener;
 import com.zeus.multiuseapp.listener.OnStartDragListener;
+import com.zeus.multiuseapp.listener.OnStartNewFragmentListener;
 import com.zeus.multiuseapp.models.Notes;
 
 import java.util.ArrayList;
@@ -39,10 +45,11 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
 
+    private OnStartNewFragmentListener mCallback;
+
     public NoteListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,17 +69,24 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         mRecyclerView.setLayoutManager(mlayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-       /* mPreferences = getActivity().getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
-        mEditor = mPreferences.edit();*/
+        mPreferences = getActivity()
+                .getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        mEditor = mPreferences.edit();
 
         mNotes = SampleData.getSmapleNote();
         mNoteListAdapter = new NoteListAdapter(getActivity(), mNotes, this);
-       /* mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mNoteListAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration
                 .Builder(getActivity())
                 .colorResId(R.color.divider)
-                .size(2)
-                .build());*/
+                .size(3)
+                .build());
         mRecyclerView.setAdapter(mNoteListAdapter);
+
         mNoteListAdapter.setNoteListListener(new OnNoteListChangedListener() {
             @Override
             public void OnNoteListChanged(List<Notes> notes) {
@@ -81,38 +95,89 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
                     listOfNoteId.add(note.getId());
                 }
                 //Convert the list of long into JSON String
-               /* Gson gson =new Gson();
+                Gson gson = new Gson();
                 String jsonListOfNoteID = gson.toJson(listOfNoteId);
                 //Now save that to sharedPreferences
-                mEditor.putString(Constants.LIST_OF_NOTE_ID,jsonListOfNoteID).commit();*/
-
+                mEditor.putString(Constants.LIST_OF_NOTE_ID, jsonListOfNoteID).commit();
             }
         });
-
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mNoteListAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         FloatingActionButton fab = (FloatingActionButton) mRootView.findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, R.string.restart, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.exit, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            }).show();
+                    mCallback.onStartNewFragment(new LinedNoteEditor(), "Note Editor");
                 }
             });
         }
+
+        new GetNotesFromDatabaseAsync().execute();
     }
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnStartNewFragmentListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnStartNewFragmentListener");
+        }
+    }
+
+    private class GetNotesFromDatabaseAsync extends AsyncTask<Void, Void, List<Notes>> {
+        List<Notes> notesList = new ArrayList<Notes>();
+
+        @Override
+        protected List<Notes> doInBackground(Void... params) {
+            //first get list from database
+            notesList = SampleData.getSmapleNote();
+
+            //create an array list of sorted notes
+            List<Notes> sortedNotes = new ArrayList<Notes>();
+
+            //get the list of id saved in shared preferences
+            String jsonListOfID = mPreferences.getString(Constants.LIST_OF_NOTE_ID, "");
+
+            //make sure this is not null
+            if (!jsonListOfID.isEmpty()) {
+                //convert the json string to a list of long
+                Gson gson = new Gson();
+                List<Long> listOfSavedID = gson.fromJson(jsonListOfID, new TypeToken<List<Long>>() {
+                }.getType());
+                //build the new list
+                if (listOfSavedID != null && listOfSavedID.size() > 0) {
+                    for (Long id : listOfSavedID) {
+                        for (Notes notes : notesList) {
+                            if (notes.getId().equals(id)) {
+                                sortedNotes.add(notes);
+                                notesList.remove(notes);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (notesList.size() > 0) {
+                    sortedNotes.addAll(notesList);
+                }
+            }
+            return sortedNotes.size() > 0 ? sortedNotes : notesList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Notes> notes) {
+            super.onPostExecute(notes);
+            for (Notes note : notes) {
+                mNotes.add(note);
+                mNoteListAdapter.notifyItemInserted(mNotes.size() - 1);
+            }
+        }
     }
 }
 

@@ -21,7 +21,7 @@
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.zeus.multiuseapp.models" />
+            android:value="com.zeus.multiuseapp" />
 
         <activity
             android:name=".notepad.NotepadActivity"

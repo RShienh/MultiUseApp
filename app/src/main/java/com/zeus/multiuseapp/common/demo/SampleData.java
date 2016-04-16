@@ -14,7 +14,7 @@ public class SampleData {
 
     public static List<Notes> getSmapleNote() {
         List<Notes> sampleNotes = new ArrayList<Notes>();
-        //crteate some dummy notes
+        //create some dummy notes
 
         Notes notes1 = new Notes();
         notes1.setId((long) 1);

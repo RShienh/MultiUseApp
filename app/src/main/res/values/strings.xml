@@ -26,4 +26,7 @@
     <string name="content_new">Content</string>
     <string name="date">Date</string>
     <string name="moving_handle">Moving handle</string>
+    <string name="title_is_required">Title is required</string>
+    <string name="content_is_required">Content is required</string>
+    <string name="save">Save</string>
 </resources>

@@ -23,11 +23,12 @@ import com.zeus.multiuseapp.R;
 import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.common.SettingsFragment;
 import com.zeus.multiuseapp.drawing.DrawingActivity;
+import com.zeus.multiuseapp.listener.OnStartNewFragmentListener;
 import com.zeus.multiuseapp.movie.MovieActivity;
 import com.zeus.multiuseapp.reminder.ReminderActivity;
 import com.zeus.multiuseapp.todo.ToDoActivity;
 
-public class NotepadActivity extends AppCompatActivity {
+public class NotepadActivity extends AppCompatActivity implements OnStartNewFragmentListener {
 
     private Drawer mDrawer = null;
     private Toolbar mToolbar;
@@ -66,7 +67,7 @@ public class NotepadActivity extends AppCompatActivity {
                 .withToolbar(mToolbar)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Notepad")
+                        new PrimaryDrawerItem().withName("Note List")
                                 .withIcon(FontAwesome.Icon.faw_file_text)
                                 .withIdentifier(1),
                         new PrimaryDrawerItem().withName("Todo List")
@@ -157,6 +158,11 @@ public class NotepadActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
         getSupportActionBar().setTitle(screenTitle);
+    }
+
+    @Override
+    public void onStartNewFragment(Fragment fragment, String title) {
+        openFragment(fragment, title);
     }
 
    /* private void testDatabase() {
