@@ -37,4 +37,12 @@
     <string name="note_editor">Note Editor</string>
     <string name="table_with_id">"Table saved with id: "</string>
     <string name="delete">Delete</string>
+    <string name="save_note_before_delete">Save note before deleting !</string>
+    <string name="error_empty_note_list">Sorry no previous notes found.\nCreate a new one !</string>
+    <string name="delete_with_comma">Delete \'</string>
+    <string name="confirmation_before_delete">Are you sure you want to delete \'</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit_confirmation">Do you want to exit from MultiTool ?</string>
+    <string name="question">\' ?</string>
 </resources>

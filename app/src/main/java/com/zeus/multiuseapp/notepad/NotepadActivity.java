@@ -2,11 +2,14 @@ package com.zeus.multiuseapp.notepad;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -157,7 +160,9 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
                 .replace(R.id.container, fragment)
                 .addToBackStack(null)
                 .commit();
-        getSupportActionBar().setTitle(screenTitle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(screenTitle);
+        }
     }
 
     @Override
@@ -165,7 +170,29 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
         openFragment(fragment, title);
     }
 
-   /* private void testDatabase() {
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle(getString(R.string.exit)).setMessage(getString(R.string.exit_confirmation));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                } else {
+                    finish();
+                }
+            }
+        }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        super.onBackPressed();
+    }
+
+    /* private void testDatabase() {
         Notes note1 = new Notes();
         note1.setTitle("This is the test for database");
         note1.setContent("Hello !!");

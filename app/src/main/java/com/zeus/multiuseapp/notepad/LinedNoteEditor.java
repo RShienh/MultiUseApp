@@ -111,7 +111,7 @@ public class LinedNoteEditor extends Fragment {
                 if (InEditMode) {
                     askForConfirmation();
                 } else {
-                    Snackbar.make(mRootView, "Save note before deleting !", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mRootView, R.string.save_note_before_delete, Snackbar.LENGTH_SHORT).show();
                 }
         }
         return super.onOptionsItemSelected(item);
@@ -134,15 +134,15 @@ public class LinedNoteEditor extends Fragment {
         final String titleOfNote = mCurrentNote.getTitle();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        alertDialog.setTitle("Delete " + titleOfNote + " ?")
-                .setMessage("Are you sure you want to delete" + titleOfNote + " ?");
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setTitle(getString(R.string.delete_with_comma) + titleOfNote + getString(R.string.question))
+                .setMessage(getString(R.string.confirmation_before_delete) + titleOfNote + getString(R.string.question));
+        alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mCurrentNote.delete();
                 mCallback.onStartNewFragment(new NoteListFragment(), getString(R.string.note_list));
             }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
