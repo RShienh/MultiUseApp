@@ -45,4 +45,5 @@
     <string name="no">No</string>
     <string name="exit_confirmation">Do you want to exit from MultiTool ?</string>
     <string name="question">\' ?</string>
+    <string name="note_deleted">Note is deleted</string>
 </resources>
