@@ -4,6 +4,8 @@ package com.zeus.multiuseapp.todo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,9 @@ public class ToDoListFragment extends Fragment {
 
     private View mRootView;
     private FloatingActionButton mFloatingActionButton;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public ToDoListFragment() {
         // Required empty public constructor
@@ -33,6 +38,10 @@ public class ToDoListFragment extends Fragment {
     }
 
     private void initView() {
+
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.xToDoRecyclerView);
+        mLayoutManager = new LinearLayoutManager(getContext());
+
         mFloatingActionButton = (FloatingActionButton) mRootView.findViewById(R.id.fab);
         if (mFloatingActionButton != null) {
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -7,11 +7,17 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#727272</color>
     <color name="icons">#FFFFFF</color>
-    <color name="divider">#cfd8dc</color>
+    <color name="divider">#bdbdbd</color>
     <color name="navigationBarColor">@color/colorPrimaryDark</color>
     <color name="teal_dark">#009688</color>
     <color name="teal_light">#64ffda</color>
-    <color name="note_back">#ffecb3</color>
+    <color name="note_back">#ffe0b2</color>
+    <color name="todo_back">#b3e5fc</color>
+
+    <color name="settings_primary">#CDDC39</color>
+    <color name="settings_primary_dark">#AFB42B</color>
+    <color name="settings_primary_light">#F0F4C3</color>
+    <color name="settings_accent">#7C4DFF</color>
 
     <color name="colorPrimary1">#795548</color>
     <color name="colorPrimaryDark1">#5D4037</color>

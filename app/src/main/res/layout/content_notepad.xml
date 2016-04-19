@@ -18,20 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/empty"/>
+            android:src="@drawable/createfile"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:layout_marginBottom="220dp"
-            android:gravity="center"
-            android:text="@string/error_empty_note_list"
-            android:textAlignment="center"
-            android:textColor="@color/colorAccent4"
-            android:textColorHighlight="@color/note_back"
-            android:textSize="20sp"
-            tools:targetApi="jelly_bean_mr1"/>
     </FrameLayout>
 </RelativeLayout>

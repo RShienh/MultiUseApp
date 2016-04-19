@@ -131,8 +131,7 @@ public class LinedNoteEditor extends Fragment {
     }
 
     private void askForConfirmation() {
-        final String titleOfNote = mCurrentNote.getTitle();
-        titleOfNote.toUpperCase();
+        final String titleOfNote = mCurrentNote.getTitle().toUpperCase();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         alertDialog.setTitle(getString(R.string.delete_with_comma) + titleOfNote + getString(R.string.question))
@@ -175,7 +174,7 @@ public class LinedNoteEditor extends Fragment {
         notes.setDateModified(Calendar.getInstance().getTimeInMillis());
         notes.save();
 
-        Snackbar.make(mRootView, "Note '" + notes.getTitle() + "' is created", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mRootView, "Note '" + notes.getTitle() + "' is saved", Snackbar.LENGTH_LONG).show();
         return true;
     }
 
