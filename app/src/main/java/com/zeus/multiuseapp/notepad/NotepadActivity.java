@@ -49,8 +49,6 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
       /*  SQLiteDemo database = new SQLiteDemo(this);
         database.getWritableDatabase();*/
 
-        // testDatabase();
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -191,18 +189,4 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
         });
         super.onBackPressed();
     }
-
-    /* private void testDatabase() {
-        Notes note1 = new Notes();
-        note1.setTitle("This is the test for database");
-        note1.setContent("Hello !!");
-
-        Calendar calendar = GregorianCalendar.getInstance();
-        note1.setDateCreated(calendar.getTimeInMillis());
-        note1.setDateModified(calendar.getTimeInMillis());
-        note1.save();
-
-        long id = note1.getId();
-    }*/
-
 }

@@ -19,11 +19,11 @@ public class Notes extends SugarRecord {
     private long dateModified;
 
     public Notes() {
-
     }
 
-    public String getModifiedDate() {
-        Calendar calendar = new GregorianCalendar().getInstance();
+    public String getReadableModifiedDate() {
+        new GregorianCalendar();
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM dd, yyyy - hh:mm a");
         simpleDateFormat.setTimeZone(calendar.getTimeZone());
         calendar.setTimeInMillis(this.getDateModified());
@@ -33,6 +33,7 @@ public class Notes extends SugarRecord {
         return displayDate;
 
     }
+
     public String getTitle() {
         return title;
     }

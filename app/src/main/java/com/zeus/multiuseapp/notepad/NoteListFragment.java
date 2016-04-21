@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.zeus.multiuseapp.R;
 import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.common.SimpleItemTouchHelperCallback;
@@ -75,7 +74,7 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
                 .getSharedPreferences(Constants.PREFERENCE_NAME, Context.MODE_PRIVATE);
         mEditor = mPreferences.edit();
 
-        mNotes = SampleData.getSmapleNote();
+        mNotes = SampleData.getSampleNotes();
         mNoteListAdapter = new NoteListAdapter(getActivity(), mNotes, this);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mNoteListAdapter);
@@ -118,12 +117,6 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
 
             }
         });
-
-        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration
-                .Builder(getActivity())
-                .colorResId(R.color.divider)
-                .size(3)
-                .build());
         mRecyclerView.setAdapter(mNoteListAdapter);
 
         mNoteListAdapter.setNoteListListener(new OnNoteListChangedListener() {

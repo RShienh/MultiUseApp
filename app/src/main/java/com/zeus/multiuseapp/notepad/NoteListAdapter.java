@@ -58,7 +58,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Notes selectedNotes = mNotes.get(position);
         holder.noteTitle.setText(selectedNotes.getTitle());
-        holder.noteCreated.setText(selectedNotes.getModifiedDate());
+        holder.noteCreated.setText(selectedNotes.getReadableModifiedDate());
 
         holder.handleView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -100,12 +100,12 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
         @Override
         public void OnItemSelected() {
-            itemView.setBackgroundColor(Color.GRAY);
+            itemView.setBackgroundColor(Color.rgb(255, 201, 120));
         }
 
         @Override
         public void OnItemClear() {
-            itemView.setBackgroundColor(0);
+            itemView.setBackgroundColor(Color.rgb(255, 224, 178));
         }
     }
 }

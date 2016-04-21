@@ -12,7 +12,9 @@
     <color name="teal_dark">#009688</color>
     <color name="teal_light">#64ffda</color>
     <color name="note_back">#ffe0b2</color>
+    <color name="note_back_dark">#ffcc80</color>
     <color name="todo_back">#b3e5fc</color>
+    <color name="todo_back_dark">#81d4fa</color>
 
     <color name="settings_primary">#CDDC39</color>
     <color name="settings_primary_dark">#AFB42B</color>
