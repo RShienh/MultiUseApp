@@ -19,6 +19,7 @@ public class SampleData {
         //create new todo item
 
         TodoItem item1 = new TodoItem();
+        item1.setId((long) 1);
         item1.setTitle("Get milk");
         item1.setChecked(true);
         Calendar calendar1 = GregorianCalendar.getInstance();
@@ -26,6 +27,7 @@ public class SampleData {
         items.add(item1);
 
         TodoItem item2 = new TodoItem();
+        item2.setId((long) 2);
         item2.setTitle("Visit Doctor, You have flu");
         item2.setChecked(true);
         Calendar calendar2 = GregorianCalendar.getInstance();
@@ -35,6 +37,7 @@ public class SampleData {
         items.add(item2);
 
         TodoItem item3 = new TodoItem();
+        item3.setId((long) 3);
         item3.setTitle("Read the above Task");
         item3.setChecked(false);
         Calendar calendar3 = GregorianCalendar.getInstance();

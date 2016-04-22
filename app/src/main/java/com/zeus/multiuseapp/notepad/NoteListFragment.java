@@ -60,7 +60,6 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         mRootView = inflater.inflate(R.layout.fragment_note_list, container, false);
 
         intView();
-
         return mRootView;
     }
 
@@ -169,7 +168,7 @@ public class NoteListFragment extends Fragment implements OnStartDragListener {
         @Override
         protected List<Notes> doInBackground(Void... params) {
             //first get list from database
-            //notesList = SampleData.getSmapleNote();
+            //notesList = SampleData.getSampleNote();
             notesList = Notes.listAll(Notes.class);
 
             //create an array list of sorted notes
