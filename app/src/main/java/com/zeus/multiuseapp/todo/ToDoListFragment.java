@@ -2,6 +2,7 @@ package com.zeus.multiuseapp.todo;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,8 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import com.zeus.multiuseapp.R;
 import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.common.SimpleItemTouchHelperCallback;
-import com.zeus.multiuseapp.common.demo.SampleData;
 import com.zeus.multiuseapp.listener.OnStartDragListener;
+import com.zeus.multiuseapp.listener.OnToDoItemAddedListener;
 import com.zeus.multiuseapp.listener.OnToDoListItemChangeListener;
 import com.zeus.multiuseapp.models.TodoItem;
 
@@ -84,6 +85,14 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    AddTodoDialogFragment dialogFragment = new AddTodoDialogFragment();
+                    dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+                    dialogFragment.setListener(new OnToDoItemAddedListener() {
+                        @Override
+                        public void OnToDoItemAdded(TodoItem todoItem) {
+                            startActivity(new Intent(getActivity(), ToDoActivity.class));
+                        }
+                    });
                 }
             });
         }
@@ -117,9 +126,9 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
         @Override
         protected List<TodoItem> doInBackground(Void... params) {
             //first get list from database
-            //todoItemList = TodoItem.listAll(TodoItem.class);
+            todoItemList = TodoItem.listAll(TodoItem.class);
 
-            todoItemList = SampleData.getSampleTasks();
+            // todoItemList = SampleData.getSampleTasks();
 
             //create an array list of sorted todo items
             List<TodoItem> sortedTodoItem = new ArrayList<TodoItem>();

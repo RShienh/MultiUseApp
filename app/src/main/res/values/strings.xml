@@ -48,4 +48,5 @@
     <string name="note_deleted">Note is deleted</string>
     <string name="todo_items">ToDo Items</string>
     <string name="note_back">#ffe0b2</string>
+    <string name="add_todo_item">Add Todo Item</string>
 </resources>
