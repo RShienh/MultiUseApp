@@ -1,19 +1,28 @@
 package com.zeus.multiuseapp.todo;
 
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,7 +83,6 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
 
         // mTodoItems = SampleData.getSampleTasks();
         mAdapter = new TodoListAdapter(mTodoItems, getActivity(), this, this);
-        mRecyclerView.setAdapter(mAdapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
@@ -84,7 +92,7 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
         if (mFloatingActionButton != null) {
             mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
                     AddTodoDialogFragment dialogFragment = new AddTodoDialogFragment();
                     dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
                     dialogFragment.setListener(new OnToDoItemAddedListener() {
@@ -97,9 +105,42 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
             });
         }
 
+        final GestureDetector mGestureDetector = new GestureDetector(getActivity(),
+                new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onSingleTapUp(MotionEvent e) {
+                        return true;
+                    }
+                });
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+
+                View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+
+                if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
+                    int position = recyclerView.getChildLayoutPosition(child);
+
+                    TodoItem selectedTodoItem = mTodoItems.get(position);
+                    handleToDoItemClicked(selectedTodoItem);
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+            }
+        });
+
+        mRecyclerView.setAdapter(mAdapter);
         new GetTodoItemFromDatabaseAsync().execute();
     }
-
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
@@ -118,6 +159,72 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
         String serializedIds = gson.toJson(listOfToDoIDs);
 
         mEditor.putString(Constants.LIST_OF_TODO_ID, serializedIds).commit();
+    }
+
+    private void handleToDoItemClicked(final TodoItem selectedItem) {
+        final String[] options = {"Edit", "Delete", "Check", "Web Search"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        View dialogView = inflater.inflate(R.layout.dialog_todo_list_options, null);
+        builder.setView(dialogView);
+
+        View headerView = inflater.inflate(R.layout.custom_dialog_header, null);
+        builder.setCustomTitle(headerView);
+
+        TextView textView = (TextView) headerView.findViewById(R.id.dialog_header_title);
+        textView.setText("Choose Options");
+
+        ListView dialogList = (ListView) dialogView.findViewById(R.id.dialog_listView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, options);
+        dialogList.setAdapter(adapter);
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        final Dialog dialog = builder.create();
+        dialog.show();
+
+        dialogList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        //edit was selected
+                        Gson gson = new Gson();
+                        String serializedToDoItem = gson.toJson(selectedItem);
+
+                        AddTodoDialogFragment dialogFragment = AddTodoDialogFragment.newInstance(serializedToDoItem);
+                        dialogFragment.show(getActivity().getSupportFragmentManager(), "Dialog");
+                        dialogFragment.setListener(new OnToDoItemAddedListener() {
+                            @Override
+                            public void OnToDoItemAdded(TodoItem todoItem) {
+                                startActivity(new Intent(getActivity(), ToDoActivity.class));
+                            }
+                        });
+                        dialog.dismiss();
+
+                        break;
+                    case 1:
+                        //delete was selected
+                        dialog.dismiss();
+                        break;
+                    case 2:
+                        //check was selected
+                        dialog.dismiss();
+                        break;
+                    case 3:
+                        //web search was selected
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        });
     }
 
     private class GetTodoItemFromDatabaseAsync extends AsyncTask<Void, Void, List<TodoItem>> {

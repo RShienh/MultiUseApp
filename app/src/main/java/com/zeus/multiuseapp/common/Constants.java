@@ -28,4 +28,5 @@ public class Constants {
     public static final String LIST_OF_NOTE_ID = "list_of_notes_id";
     public static final String SERIALIZED_NOTES = "serialized_note";
     public static final String LIST_OF_TODO_ID = "list_of_todo_id";
+    public static final String SERIALIZED_TODO_ITEM = "serialized_todo_item";
 }

@@ -12,6 +12,7 @@
         android:layout_margin="10dp"
         android:gravity="start"
         android:hint="@string/add_todo_item"
+        android:inputType="textAutoCorrect|textAutoComplete|textShortMessage"
         android:padding="10dp"
         android:singleLine="true"
         />

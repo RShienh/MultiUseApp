@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary4"
         android:gravity="center_horizontal"
         android:padding="7dp"
-        android:text="@string/add_todo_item"
+        android:text="@string/todo_item"
         android:textColor="@color/cardview_light_background"
         android:textSize="23sp"
         android:textStyle="bold"

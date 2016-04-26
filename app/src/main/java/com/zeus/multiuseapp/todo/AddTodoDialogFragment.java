@@ -5,13 +5,17 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.listener.OnToDoItemAddedListener;
 import com.zeus.multiuseapp.models.TodoItem;
 
@@ -21,9 +25,46 @@ public class AddTodoDialogFragment extends DialogFragment {
 
     private OnToDoItemAddedListener mListener;
 
+    private boolean isInEditMode = false;
+
+    private TodoItem mCurrentTodoItem = null;
+
     public AddTodoDialogFragment() {
         // Required empty public constructor
     }
+
+    public static AddTodoDialogFragment newInstance(String serializedTodo) {
+        AddTodoDialogFragment fragment = new AddTodoDialogFragment();
+        if (!serializedTodo.isEmpty()) {
+            Bundle args = new Bundle();
+            args.putString(Constants.SERIALIZED_TODO_ITEM, serializedTodo);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getToDoItem();
+    }
+
+    private void getToDoItem() {
+        Bundle args = getArguments();
+        if (args != null) {
+            if (args.containsKey(Constants.SERIALIZED_TODO_ITEM)) {
+                //we have todo item in edit mode
+                String jsonTodoItem = args.getString(Constants.SERIALIZED_TODO_ITEM);
+                Gson gson = new Gson();
+                mCurrentTodoItem = gson.fromJson(jsonTodoItem, TodoItem.class);
+
+                if (mCurrentTodoItem != null && mCurrentTodoItem.getId() != null && mCurrentTodoItem.getId() > 0) {
+                    isInEditMode = true;
+                }
+            }
+        }
+    }
+
 
     public OnToDoItemAddedListener getListener() {
         return mListener;
@@ -72,12 +113,35 @@ public class AddTodoDialogFragment extends DialogFragment {
     }
 
     private void saveToDoItem(String todo) {
-        TodoItem item = new TodoItem();
-        item.setTitle(todo);
-        item.setDateCreated(System.currentTimeMillis());
-        item.setDateModified(System.currentTimeMillis());
-        item.save();
 
-        mListener.OnToDoItemAdded(item);
+        if (!isInEditMode) {
+            TodoItem item = new TodoItem();
+            item.setTitle(todo);
+            item.setDateCreated(System.currentTimeMillis());
+            item.setDateModified(System.currentTimeMillis());
+            item.save();
+
+            Toast.makeText(getContext(), todo + " has been added", Toast.LENGTH_SHORT).show();
+            mListener.OnToDoItemAdded(item);
+        } else {
+            mCurrentTodoItem.setDateModified(System.currentTimeMillis());
+            String newTitle = mToDoEditText.getText().toString().trim();
+            mCurrentTodoItem.setTitle(newTitle);
+            Toast.makeText(getContext(), "'" + newTitle.toUpperCase() + "' has been updated", Toast.LENGTH_SHORT).show();
+            mCurrentTodoItem.save();
+            mListener.OnToDoItemAdded(mCurrentTodoItem);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isInEditMode) {
+            populateToDoItem();
+        }
+    }
+
+    private void populateToDoItem() {
+        mToDoEditText.setText(mCurrentTodoItem.getTitle());
     }
 }

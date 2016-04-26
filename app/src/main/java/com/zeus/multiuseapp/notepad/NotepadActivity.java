@@ -2,14 +2,11 @@ package com.zeus.multiuseapp.notepad;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -168,7 +165,7 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
         openFragment(fragment, title);
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
         builder.setTitle(getString(R.string.exit)).setMessage(getString(R.string.exit_confirmation));
@@ -188,5 +185,5 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
             }
         });
         super.onBackPressed();
-    }
+    }*/
 }
