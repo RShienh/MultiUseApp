@@ -27,9 +27,8 @@ public class TodoItem extends SugarRecord {
         simpleDateFormat.setTimeZone(calendar.getTimeZone());
         calendar.setTimeInMillis(this.getDateModified());
         Date modifiedDate = calendar.getTime();
-        String displayDate = simpleDateFormat.format(modifiedDate);
 
-        return displayDate;
+        return simpleDateFormat.format(modifiedDate);
     }
 
     public String getTitle() {

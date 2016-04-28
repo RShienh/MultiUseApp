@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -208,23 +210,54 @@ public class ToDoListFragment extends Fragment implements OnStartDragListener, O
                             }
                         });
                         dialog.dismiss();
-
                         break;
                     case 1:
                         //delete was selected
+                        askForConfirmation(selectedItem);
                         dialog.dismiss();
                         break;
                     case 2:
                         //check was selected
+                        boolean isChecked = selectedItem.isChecked() ? false : true;
+                        selectedItem.setChecked(isChecked);
+                        mAdapter.notifyItemChanged(mTodoItems.indexOf(selectedItem));
+                        selectedItem.save();
                         dialog.dismiss();
                         break;
                     case 3:
                         //web search was selected
+                        Uri uri = Uri.parse("https://www.google.co.in/search?q=" + selectedItem.getTitle());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
                         dialog.dismiss();
                         break;
                 }
             }
         });
+    }
+
+    private void askForConfirmation(final TodoItem selectedItem) {
+        final String titleOfTodo = selectedItem.getTitle().toUpperCase();
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+        alertDialog.setTitle(getString(R.string.delete_with_comma) + titleOfTodo + getString(R.string.question))
+                .setMessage(getString(R.string.confirmation_before_delete) + titleOfTodo + getString(R.string.question));
+        alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String title = selectedItem.getTitle();
+                Snackbar.make(mRootView, "Todo " + title + " is deleted", Snackbar.LENGTH_SHORT).show();
+                selectedItem.delete();
+                startActivity(new Intent(getActivity(), ToDoActivity.class));
+
+            }
+        }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private class GetTodoItemFromDatabaseAsync extends AsyncTask<Void, Void, List<TodoItem>> {

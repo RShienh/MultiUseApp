@@ -151,7 +151,6 @@ public class LinedNoteEditor extends Fragment {
             }
         });
         alertDialog.show();
-
     }
 
     private boolean saveNote() {

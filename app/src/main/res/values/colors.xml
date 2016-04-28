@@ -41,5 +41,8 @@
     <color name="colorPrimaryLight4">#E1BEE7</color>
     <color name="colorAccent4">#8BC34A</color>
 
+    <color name="canvas_back">#f5f5f5</color>
+    <color name="option_picker">#616161</color>
+
 
 </resources>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zeus.multiuseapp">
+          package="com.zeus.multiuseapp">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="com.orm.SugarApp"
@@ -12,43 +15,43 @@
 
         <meta-data
             android:name="DATABASE"
-            android:value="multi_use.db" />
+            android:value="multi_use.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="1" />
+            android:value="1"/>
         <meta-data
             android:name="QUERY_LOG"
-            android:value="true" />
+            android:value="true"/>
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.zeus.multiuseapp" />
+            android:value="com.zeus.multiuseapp"/>
 
         <activity
             android:name=".notepad.NotepadActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".drawing.DrawingActivity"
             android:label="@string/title_activity_drawing"
-            android:theme="@style/AppThemeOne" />
+            android:theme="@style/AppThemeOne"/>
         <activity
             android:name=".movie.MovieActivity"
             android:label="@string/title_activity_movie"
-            android:theme="@style/AppThemeTwo" />
+            android:theme="@style/AppThemeTwo"/>
         <activity
             android:name=".reminder.ReminderActivity"
             android:label="@string/title_activity_reminder"
-            android:theme="@style/AppThemeThree" />
+            android:theme="@style/AppThemeThree"/>
         <activity
             android:name=".todo.ToDoActivity"
             android:label="@string/title_activity_to_do"
-            android:theme="@style/AppThemeFour" />
+            android:theme="@style/AppThemeFour"/>
     </application>
 
 </manifest>
