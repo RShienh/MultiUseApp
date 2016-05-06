@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_to_do">
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/todoContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

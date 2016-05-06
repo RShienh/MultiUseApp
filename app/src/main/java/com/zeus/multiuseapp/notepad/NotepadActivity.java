@@ -25,8 +25,6 @@ import com.zeus.multiuseapp.common.Constants;
 import com.zeus.multiuseapp.common.SettingsFragment;
 import com.zeus.multiuseapp.drawing.DrawingActivity;
 import com.zeus.multiuseapp.listener.OnStartNewFragmentListener;
-import com.zeus.multiuseapp.movie.MovieActivity;
-import com.zeus.multiuseapp.reminder.ReminderActivity;
 import com.zeus.multiuseapp.todo.ToDoActivity;
 
 public class NotepadActivity extends AppCompatActivity implements OnStartNewFragmentListener {
@@ -133,15 +131,11 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
                 break;
             case Constants.DRAWING:
                 startActivity(new Intent(this, DrawingActivity.class));
+                finish();
                 break;
             case Constants.TODO:
                 startActivity(new Intent(this, ToDoActivity.class));
-                break;
-            case Constants.MOVIE:
-                startActivity(new Intent(this, MovieActivity.class));
-                break;
-            case Constants.REMINDER:
-                startActivity(new Intent(this, ReminderActivity.class));
+                finish();
                 break;
             case Constants.SETTINGS:
                 openFragment(new SettingsFragment(), getString(R.string.settings));
@@ -153,7 +147,7 @@ public class NotepadActivity extends AppCompatActivity implements OnStartNewFrag
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.container, fragment)
+                .replace(R.id.notepadContainer, fragment)
                 .addToBackStack(null)
                 .commit();
         if (getSupportActionBar() != null) {

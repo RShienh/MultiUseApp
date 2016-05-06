@@ -41,14 +41,6 @@
             android:label="@string/title_activity_drawing"
             android:theme="@style/AppThemeOne"/>
         <activity
-            android:name=".movie.MovieActivity"
-            android:label="@string/title_activity_movie"
-            android:theme="@style/AppThemeTwo"/>
-        <activity
-            android:name=".reminder.ReminderActivity"
-            android:label="@string/title_activity_reminder"
-            android:theme="@style/AppThemeThree"/>
-        <activity
             android:name=".todo.ToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppThemeFour"/>

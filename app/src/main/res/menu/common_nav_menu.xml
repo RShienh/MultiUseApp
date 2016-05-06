@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_noteList"
+            android:icon="@drawable/notepad"
+            android:title="@string/notepad"/>
+        <item
+            android:id="@+id/nav_todoList"
+            android:icon="@drawable/checklist"
+            android:title="@string/todo_list"/>
+        <item
+            android:id="@+id/nav_drawing"
+            android:icon="@drawable/brush"
+            android:title="@string/drawing"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/settings"
+            android:title="@string/settings"/>
+    </group>
+</menu>

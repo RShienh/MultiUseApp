@@ -2,37 +2,37 @@ package com.zeus.multiuseapp.drawing;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.zeus.multiuseapp.R;
+import com.zeus.multiuseapp.notepad.NotepadActivity;
+import com.zeus.multiuseapp.todo.ToDoActivity;
 
 import java.util.UUID;
 
-public class DrawingActivity extends AppCompatActivity implements View.OnClickListener {
+public class DrawingActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawingView drawView;
     private ImageButton currPaint;
     private float smallBrush, mediumBrush, largeBrush;
-    private Toolbar mToolbar;
-    private Drawer mDrawer = null;
+    private DrawerLayout mDrawerLayout;
 
 
     @Override
@@ -40,64 +40,18 @@ public class DrawingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
 
-        AccountHeader accountHeader = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.drawerback)
-                .build();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mDrawer = new DrawerBuilder()
-                .withAccountHeader(accountHeader)
-                .withActivity(this)
-                .withToolbar(mToolbar)
-                .withActionBarDrawerToggle(true)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.note_list)
-                                .withIcon(FontAwesome.Icon.faw_file_text)
-                                .withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.todo_list)
-                                .withIcon(FontAwesome.Icon.faw_list)
-                                .withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.drawing)
-                                .withIcon(FontAwesome.Icon.faw_paint_brush)
-                                .withIdentifier(3),
-                        new PrimaryDrawerItem().withName(R.string.reminder)
-                                .withIcon(FontAwesome.Icon.faw_clock_o)
-                                .withIdentifier(4),
-                        new PrimaryDrawerItem().withName(R.string.movie_list)
-                                .withIcon(FontAwesome.Icon.faw_video_camera)
-                                .withIdentifier(5),
-                        new PrimaryDrawerItem().withName(R.string.settings)
-                                .withIcon(FontAwesome.Icon.faw_cog)
-                                .withIdentifier(6)
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        return true;
-                    }
-                })
-                .withOnDrawerListener(new Drawer.OnDrawerListener() {
-                    @Override
-                    public void onDrawerOpened(View drawerView) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_todo_view);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
 
-                    }
-
-                    @Override
-                    public void onDrawerClosed(View drawerView) {
-
-                    }
-
-                    @Override
-                    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                    }
-                })
-                .withFireOnInitialOnClick(true)
-                .withSavedInstance(savedInstanceState)
-                .build();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        }
 
         drawView = (DrawingView) findViewById(R.id.drawing);
         LinearLayout paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
@@ -152,12 +106,7 @@ public class DrawingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        saveDrawing(getCurrentFocus());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            finishAffinity();
-        } else {
-            finish();
-        }
+        exitDrawing(getCurrentFocus());
     }
 
     @Override
@@ -291,5 +240,74 @@ public class DrawingActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         saveDialog.show();
+    }
+
+    private void exitDrawing(final View view) {
+        AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+        saveDialog.setTitle("Save drawing");
+        saveDialog.setMessage("Save drawing to device Gallery?");
+        saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                //save drawing
+                drawView.setDrawingCacheEnabled(true);
+                String imgSaved = MediaStore.Images.Media.insertImage(
+                        getContentResolver(), drawView.getDrawingCache(),
+                        UUID.randomUUID().toString() + ".png", "drawing");
+
+                if (imgSaved != null) {
+                    Toast.makeText(getApplicationContext(), "Image has been saved", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        finishAffinity();
+                    } else {
+                        finish();
+                    }
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Failed to save image", Snackbar.LENGTH_SHORT);
+                    Log.e(imgSaved, "Error saving Image");
+                    snackbar.show();
+                }
+                drawView.destroyDrawingCache();
+            }
+        });
+
+        saveDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    finishAffinity();
+                } else {
+                    finish();
+                }
+            }
+        });
+        saveDialog.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        saveDialog.show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_noteList:
+                startActivity(new Intent(this, NotepadActivity.class));
+                finish();
+                break;
+            case R.id.nav_todoList:
+                startActivity(new Intent(this, ToDoActivity.class));
+                finish();
+                break;
+            case R.id.nav_drawing:
+                if (mDrawerLayout != null) {
+                    mDrawerLayout.closeDrawer(GravityCompat.END);
+                }
+                finish();
+                break;
+        }
+        return false;
     }
 }
